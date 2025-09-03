@@ -1,0 +1,239 @@
+Afișează întotdeauna detaliile
+import zipfile
+import os
+
+# Creăm structura folderelor
+base_path = "/mnt/data/minecrar-hosting"
+os.makedirs(f"{base_path}/css", exist_ok=True)
+os.makedirs(f"{base_path}/images", exist_ok=True)
+
+# Cream fisierul style.css
+style_css = """
+body {
+  font-family: 'Press Start 2P', cursive;
+  margin: 0;
+  background: #0d0d0d url('../images/background.png') repeat;
+  color: #fff;
+}
+
+/* Bara de navigație */
+nav {
+  background: #111;
+  border-bottom: 3px solid #00ff7f;
+  padding: 12px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 3px 10px rgba(0, 255, 127, 0.3);
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo img {
+  width: 34px;
+  height: 34px;
+  image-rendering: pixelated;
+}
+.logo span {
+  color: #00ff7f;
+  font-size: 0.9em;
+  text-shadow: 0 0 6px #00ff7f;
+}
+.menu a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 15px;
+  font-size: 0.75em;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+.menu a:hover {
+  color: #00ff7f;
+  text-shadow: 0 0 8px #00ff7f;
+}
+
+/* Header */
+header {
+  padding: 50px 20px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.7));
+  border-bottom: 3px solid #00ff7f;
+  text-align: center;
+}
+header h1 {
+  font-size: 2.2em;
+  color: #00ff7f;
+  margin: 0;
+  text-shadow: 0 0 10px #00ff7f, 2px 2px #000;
+}
+header p {
+  font-size: 0.85em;
+  margin-top: 15px;
+  color: #ccc;
+}
+
+/* Pachete */
+.plans {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  padding: 40px 20px;
+}
+.plan {
+  background: #111;
+  border: 2px solid #00ff7f;
+  border-radius: 12px;
+  padding: 25px;
+  width: 220px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0,255,127,0.2);
+}
+.plan:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 25px rgba(0,255,127,0.6);
+}
+.plan h2 {
+  color: #00ff7f;
+  font-size: 1.1em;
+  margin-bottom: 15px;
+  text-shadow: 0 0 8px #00ff7f;
+}
+.plan p {
+  font-size: 0.7em;
+  color: #aaa;
+  margin-bottom: 20px;
+}
+.btn {
+  display: inline-block;
+  padding: 10px 14px;
+  background: #00ff7f;
+  color: #111;
+  font-size: 0.7em;
+  border: 2px solid #fff;
+  text-decoration: none;
+  box-shadow: 0 0 10px #00ff7f, 2px 2px #000;
+  transition: background 0.3s, transform 0.2s;
+}
+.btn:hover {
+  background: #00cc66;
+  transform: scale(1.08);
+  box-shadow: 0 0 20px #00ff7f;
+}
+
+/* Contact */
+#contact {
+  text-align: center;
+  padding: 40px;
+  background: #111;
+  border-top: 3px solid #00ff7f;
+  box-shadow: 0 -3px 10px rgba(0,255,127,0.3);
+}
+#contact h2 {
+  color: #00ff7f;
+  font-size: 1em;
+  text-shadow: 0 0 8px #00ff7f;
+}
+#contact p {
+  font-size: 0.7em;
+  color: #ccc;
+}
+
+/* Footer */
+footer {
+  background: #0d0d0d;
+  padding: 18px;
+  border-top: 3px solid #00ff7f;
+  font-size: 0.6em;
+  text-align: center;
+  color: #888;
+}
+"""
+
+with open(f"{base_path}/css/style.css", "w") as f:
+    f.write(style_css)
+
+# Cream fisierul index.html
+index_html = """
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>Minecrar Hosting</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav>
+    <div class="logo">
+      <img src="images/logo.png" alt="logo">
+      <span>Minecrar</span>
+    </div>
+    <div class="menu">
+      <a href="#home">Acasă</a>
+      <a href="#pachete">Pachete</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <header id="home">
+    <h1>⛏️ Minecrar Hosting</h1>
+    <p>Servere Minecraft GRATUITE – de la 1GB până la 30GB RAM!</p>
+  </header>
+
+  <section class="plans" id="pachete">
+    <div class="plan">
+      <h2>1GB RAM</h2>
+      <p>Perfect pentru singleplayer</p>
+      <a href="mailto:minecrar.hosting@email.com?subject=Comandă%201GB%20RAM" class="btn" onclick="alert('Am primit comanda ta pentru 1GB RAM!')">Comandă acum</a>
+    </div>
+    <div class="plan">
+      <h2>5GB RAM</h2>
+      <p>Pentru prieteni și mici comunități</p>
+      <a href="mailto:minecrar.hosting@email.com?subject=Comandă%205GB%20RAM" class="btn" onclick="alert('Am primit comanda ta pentru 5GB RAM!')">Comandă acum</a>
+    </div>
+    <div class="plan">
+      <h2>10GB RAM</h2>
+      <p>Servere survival stabile</p>
+      <a href="mailto:minecrar.hosting@email.com?subject=Comandă%2010GB%20RAM" class="btn" onclick="alert('Am primit comanda ta pentru 10GB RAM!')">Comandă acum</a>
+    </div>
+    <div class="plan">
+      <h2>20GB RAM</h2>
+      <p>Pentru rețele mari cu plugins</p>
+      <a href="mailto:minecrar.hosting@email.com?subject=Comandă%2020GB%20RAM" class="btn" onclick="alert('Am primit comanda ta pentru 20GB RAM!')">Comandă acum</a>
+    </div>
+    <div class="plan">
+      <h2>30GB RAM</h2>
+      <p>Putere maximă pentru mega servere</p>
+      <a href="mailto:minecrar.hosting@email.com?subject=Comandă%2030GB%20RAM" class="btn" onclick="alert('Am primit comanda ta pentru 30GB RAM!')">Comandă acum</a>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>📧 Contact</h2>
+    <p>Scrie-ne pe email: <b>minecrar.hosting@email.com</b></p>
+  </section>
+
+  <footer>
+    <p>© 2025 Minecrar Hosting – Toate drepturile rezervate</p>
+  </footer>
+</body>
+</html>
+"""
+
+with open(f"{base_path}/index.html", "w") as f:
+    f.write(index_html)
+
+# Cream fisierul ZIP
+zip_filename = "/mnt/data/minecrar-hosting.zip"
+with zipfile.ZipFile(zip_filename, 'w') as zipf:
+    for folder_name, subfolders, filenames in os.walk(base_path):
+        for filename in filenames:
+            file_path = os.path.join(folder_name, filename)
+            zipf.write(file_path, os.path.relpath(file_path, base_path))
+
+zip_filename
+
+Rezultat
+'/mnt/data/minecrar-hosting.zip'
